@@ -28,58 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.mapBox1 = new SharpMap.Forms.MapBox();
-            this.mapZoomToolStrip1 = new SharpMap.Forms.ToolBar.MapZoomToolStrip(this.components);
+            this.mp = new SharpMap.Forms.MapBox();
+            this.grd = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.grd)).BeginInit();
             this.SuspendLayout();
             // 
-            // mapBox1
+            // mp
             // 
-            this.mapBox1.ActiveTool = SharpMap.Forms.MapBox.Tools.None;
-            this.mapBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.mapBox1.FineZoomFactor = 10D;
-            this.mapBox1.Location = new System.Drawing.Point(55, 49);
-            this.mapBox1.MapQueryMode = SharpMap.Forms.MapBox.MapQueryType.LayerByIndex;
-            this.mapBox1.Name = "mapBox1";
-            this.mapBox1.QueryGrowFactor = 5F;
-            this.mapBox1.QueryLayerIndex = 0;
-            this.mapBox1.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))));
-            this.mapBox1.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))));
-            this.mapBox1.ShowProgressUpdate = false;
-            this.mapBox1.Size = new System.Drawing.Size(545, 375);
-            this.mapBox1.TabIndex = 0;
-            this.mapBox1.Text = "mapBox1";
-            this.mapBox1.WheelZoomMagnitude = -2D;
+            this.mp.ActiveTool = SharpMap.Forms.MapBox.Tools.None;
+            this.mp.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.mp.FineZoomFactor = 10D;
+            this.mp.Location = new System.Drawing.Point(27, 61);
+            this.mp.MapQueryMode = SharpMap.Forms.MapBox.MapQueryType.LayerByIndex;
+            this.mp.Name = "mp";
+            this.mp.QueryGrowFactor = 5F;
+            this.mp.QueryLayerIndex = 0;
+            this.mp.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))));
+            this.mp.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(244)))), ((int)(((byte)(244)))));
+            this.mp.ShowProgressUpdate = false;
+            this.mp.Size = new System.Drawing.Size(608, 254);
+            this.mp.TabIndex = 0;
+            this.mp.Text = "mapBox1";
+            this.mp.WheelZoomMagnitude = -2D;
+            this.mp.MouseDown += new SharpMap.Forms.MapBox.MouseEventHandler(this.mp_MouseDown);
             // 
-            // mapZoomToolStrip1
+            // grd
             // 
-            this.mapZoomToolStrip1.Enabled = false;
-            this.mapZoomToolStrip1.ImageScalingSize = new System.Drawing.Size(28, 28);
-            this.mapZoomToolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.mapZoomToolStrip1.MapControl = this.mapBox1;
-            this.mapZoomToolStrip1.Name = "mapZoomToolStrip1";
-            this.mapZoomToolStrip1.Size = new System.Drawing.Size(679, 38);
-            this.mapZoomToolStrip1.TabIndex = 1;
-            this.mapZoomToolStrip1.Text = "mapZoomToolStrip1";
+            this.grd.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.grd.Location = new System.Drawing.Point(27, 332);
+            this.grd.Name = "grd";
+            this.grd.RowTemplate.Height = 31;
+            this.grd.Size = new System.Drawing.Size(608, 317);
+            this.grd.TabIndex = 2;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(679, 463);
-            this.Controls.Add(this.mapZoomToolStrip1);
-            this.Controls.Add(this.mapBox1);
+            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.ClientSize = new System.Drawing.Size(647, 661);
+            this.Controls.Add(this.grd);
+            this.Controls.Add(this.mp);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.grd)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private SharpMap.Forms.MapBox mapBox1;
-        private SharpMap.Forms.ToolBar.MapZoomToolStrip mapZoomToolStrip1;
+        private SharpMap.Forms.MapBox mp;
+        private System.Windows.Forms.DataGridView grd;
     }
 }
-
