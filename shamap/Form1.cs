@@ -2,9 +2,10 @@
 using SharpMap.Data;
 using SharpMap.Data.Providers;
 using SharpMap.Layers;
+using SharpMap.Styles;
 using System;
 using System.Data;
-using System.Linq;
+using System.Drawing;
 using System.Windows.Forms;
 using n = Npgsql;
 
@@ -16,7 +17,8 @@ namespace shamap
         {
             InitializeComponent();
         }
-        VectorLayer l;
+        VectorLayer l, s;
+
         private void Form1_Load(object sender, EventArgs e)
         {
             string str = "server=localhost;port=5432;database=testdb;user=postgres;pwd=zili";
@@ -26,12 +28,31 @@ namespace shamap
             DataTable dt = new DataTable();
             ada.Fill(dt);
             grd.DataSource = dt;
-            l = new VectorLayer("")
+            s = new VectorLayer("s");
+            l = new VectorLayer("l")
             {
                 DataSource = new PostGIS(str, "quartier", "zone", "code")
             };
-            l.Style.Fill = System.Drawing.Brushes.BlueViolet;
+
+            VectorStyle style = new VectorStyle
+            {
+                Fill = Brushes.Green,
+                Outline = Pens.Black,
+                EnableOutline = true
+            };
+
+            VectorStyle styleSelected = new VectorStyle
+            {
+                Fill = Brushes.Yellow,
+                Outline = Pens.Blue,
+                EnableOutline = true
+            };
+
+            s.Style = styleSelected;
+            l.Style = style;
+
             mp.Map.Layers.Add(l);
+
             mp.Map.ZoomToExtents();
             mp.Refresh();
 
@@ -39,29 +60,23 @@ namespace shamap
 
         private void mp_MouseDown(GeoAPI.Geometries.Coordinate worldPos, MouseEventArgs imagePos)
         {
-            FeatureDataSet selectedGeometry = new FeatureDataSet();
-            VectorLayer theLayer = (VectorLayer)mp.Map.FindLayer("").FirstOrDefault();
+            FeatureDataSet selected = new FeatureDataSet();
+            Envelope boundingBox = new Envelope(worldPos);
+            boundingBox.ExpandBy(0.01);
 
-            if (theLayer != null)
+            l.DataSource.ExecuteIntersectionQuery(boundingBox, selected);
+
+            if (selected.Tables[0].Count == 0) return;
+
+            Text = selected.Tables[0].Rows[0]["nom"].ToString();
+            s.DataSource = new GeometryProvider(selected.Tables[0]);
+
+            if (mp.Map.FindLayer("s") != null)
             {
-                if (!theLayer.DataSource.IsOpen)
-                {
-                    theLayer.DataSource.Open();
-                }
-
-                Envelope boundingBox = new Envelope(worldPos);
-
-                if (Math.Abs(boundingBox.Area - 0.0) < 0.01)
-                {
-                    boundingBox.ExpandBy(0.01);
-                }
-
-                theLayer.DataSource.ExecuteIntersectionQuery(boundingBox, selectedGeometry);
-
-
-                theLayer.DataSource.Close();
-
+                mp.Map.Layers.Add(s);
             }
+
+            mp.Refresh();
         }
     }
 }
